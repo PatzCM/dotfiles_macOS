@@ -1,224 +1,158 @@
-###############
-### General ###
-###############
-# Afogonca's lil gift
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-echo "Don't forget to take your meds"
-echo "Don't forget to git push"
-echo "-Afogonca + Jpatrici"
-# Correct wrong spellings
-setopt correct
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
 
-# Load colors
-autoload -U colors && colors
-for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
-   eval $COLOR='$fg_no_bold[${(L)COLOR}]'
-   eval BOLD_$COLOR='$fg_bold[${(L)COLOR}]'
-done
-eval NC='$reset_color'
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="random"
 
-##################
-### Completion ###
-##################
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-# Load and initialise completion system
-autoload -Uz compinit
-zstyle ':completion:*' menu select
-zmodload zsh/complist
-compinit -d "$XDG_CACHE_HOME/zsh/.zshcompdump-$ZSH_VERSION"
-_comp_options+=(globdots)
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-#######################
-### Vim Mode Config ###
-#######################
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-# bindkey -v
-# export KEYTIMEOUT=7
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="yyyy-mm-dd"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+git
+zsh-autosuggestions
+zsh-syntax-highlighting
+sudo
+z
+git-open
+dash
+vi-mode
+vscode
+sublime
+fzf
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# zsh-completions
+if type brew &>/dev/null;then
+   FPTH=$(brew --prefix)/share/zsh-completions:$FPATH
+    
+   autoload -Uz compinit
+   compinit
+fi
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
 #
-# # Use vim keys in tab complete menu:
-# bindkey -M menuselect 'h' vi-backward-char
-# bindkey -M menuselect 'k' vi-up-line-or-history
-# bindkey -M menuselect 'l' vi-forward-char
-# bindkey -M menuselect 'j' vi-down-line-or-history
-# bindkey -v '^?' backward-delete-char
-#
-# # Change cursor shape for different vi modes.
-# function zle-keymap-select {
-#   if [[ ${KEYMAP} == vicmd ]] ||
-#      [[ $1 = 'block' ]]; then
-#     echo -ne '\e[1 q'
-#   elif [[ ${KEYMAP} == main ]] ||
-#        [[ ${KEYMAP} == viins ]] ||
-#        [[ ${KEYMAP} = '' ]] ||
-#        [[ $1 = 'beam' ]]; then
-#     echo -ne '\e[5 q'
-#   fi
-# }
-# zle -N zle-keymap-select
-# zle-line-init() {
-#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-#     echo -ne "\e[5 q"
-# }
-# zle -N zle-line-init
-# echo -ne '\e[5 q' # Use beam shape cursor on startup.
-# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
-#
-# # ctrl-e: to edit command line in vim
-# autoload edit-command-line; zle -N edit-command-line
-# bindkey '^e' edit-command-line
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.bashrc
 
-##########################
-### Zap Plugin Manager ###
-##########################
-
-[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
-plug "zsh-users/zsh-autosuggestions"
-plug "zap-zsh/supercharge"
-plug "zsh-users/zsh-syntax-highlighting"
-plug "hlissner/zsh-autopair"
-plug "zsh-users/zsh-history-substring-search"
-plug "MichaelAquilina/zsh-you-should-use"
-plug "zap-zsh/completions"
-plug "zap-zsh/sudo"
-plug "web-search"
-plug "zap-zsh/fzf"
-plug "zap-zsh/web-search"
-plug "jeffreytse/zsh-vi-mode"
-
-#######################
-### Zedro's Scripts ###
-#######################
-
-# tmux
-alias zmux=~/.dotfiles/scripts/tmux/zmux-init.sh
-alias xmux=~/.dotfiles/scripts/tmux/zmux-kill.sh
-
-
-
-#################
-### Greetings ###
-#################
-
-
-
-################
-### Keyboard ###
-################
-
-eval "setxkbmap us"
-
-#######################
-### Zedro's Aliases ###
-#######################
-
-# Compiling
-alias ccw='cc -Wall -Wextra -Werror -g'
-
-# 42 Norm Check
-alias nn='norminette'
-# Franinette alias
-alias francinette=~/francinette/tester.sh
-alias fr='francinette'
-
-# Neovim
+alias mysql=/usr/local/mysql/bin/mysql
+alias ls='lsd'
 alias v='nvim'
-alias vc='vim | lolcat'
-alias clear_nvim='rm -rf ~/.local/share/nvim'
- 
-# git
-alias ga='git add'
-alias gst='git status'
-alias gc='git commit -m'
-alias gp='git push'
-alias gl='git pull'
-alias gco='git checkout'
-alias gcb='git checkout -b'
-alias glgg='git log --graph --oneline --decorate'
-alias glgs='git log --graph --oneline --decorate | head -n 7'
-alias gm='git merge --stat --log'
+alias ra='TERM=xterm-256color ranger'
+alias raj='TERM=xterm-256color ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias lt="ls --tree"
+alias reload="source ~/.zshrc"
+alias cl="clear"
 
-# kitty at 42
-if [[ $USER == "palexand" || $USER == "zedro" ]]; then
-	alias kitty=~/.local/kitty.app/bin/kitty
-fi
-alias k='kitty --start-as=fullscreen'
-alias icat='kitty +kitten icat'
-alias kdiff='kitty +kitten diff'
+# ranger 配置
+export RANGER_LOAD_DEFAULT_RC=FALSE
+# 使用,补全历史记录
+bindkey ',' autosuggest-accept
 
-# Glow Markdown Renderer
-alias glow=~/bin/glow/glow
 
-# File system Navigation
-# cd || zoxide
-if command -v zoxide > /dev/null 2>&1; then
-	eval "$(zoxide init --cmd cd zsh)"
-	echo "[Running ${GREEN}zoxide${NC}! 📂]"
-else
-	echo "[Running ${YELLOW}cd${NC}! 📂]"
-fi
-# ls || eza
-if command -v eza > /dev/null 2>&1; then
-	echo "[Running ${GREEN}eza${NC}! 📊]"
-	alias ls='eza'
-	alias ll='ls -al'
-	alias llx='eza -laZ --total-size'
-	alias llg='eza -laZ --total-size --git --git-repos'
-else
-	echo "[Running ${YELLOW}ls${NC}! ]"
-	alias ll='ls -al --color'
-fi
+# vi-mode 使用nvim作为默认打开工具
+EDITOR=nvim 
+export EDITOR
 
-# Load Cowsay
-# if command -v lolcat > /dev/null 2>&1; then
-# 	eval "zshcow" | lolcat
-# else
-# 	eval "zshcow"
-# fi
+bindkey '^h'  backward-char         #control+h：向左移动一个单词
+bindkey '^l'  forward-char          #control+l：向右移动一个单词
+bindkey '^k'  up-line-or-history    #control+k：向上翻看历史记录
+bindkey '^j'  down-line-or-history  #control+j：向下翻看历史记录
 
-############################
-### Load Starship Prompt ###
-############################
 
-# if command -v starship > /dev/null 2>&1; then
-    eval "$(starship init zsh)"
-# else
-#    ZSH_THEME="refined"
-# fi
+export FZF_DEFAULT_OPTS=" \
+--height 80% \
+--reverse \
+--border \
+--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
 
-#####################################
-### Clear google-chrome Singleton* ###
-#####################################
-#if [[ $USER == "palexand" ]]; then
- alias chrome='rm -rf ~/.config/google-chrome/Singleton*'
-#fi
 
-#################################
-########## FRANCINETTE ##########
-#################################
-
-alias paco=/user/patz/francinette/tester.sh
-
-# Load Homebrew config script
-source $HOME/.brewconfig.zsh
-export PATH="usr/local/bin/.brew/bin:$PATH"
-export XDG_DATA_DIRS="usr/local/bin/.brew/share:$XDG_DATA_DIRS"
-
-# Set up fzf key bindings and fuzzy completion
-# Define a function to run fzf
-fzf-file-widget() {
-  LBUFFER="${LBUFFER}$(fzf)"
-  local ret=$?
-  zle reset-prompt
-  return $ret
-}
-
-# Create a ZLE widget for the function
-zle -N fzf-file-widget
-
-# Bind the widget to a key combination (e.g., Ctrl+F)
-bindkey '^F' fzf-file-widget
-
-# source <(fzf --zsh)
-# Set up fzf key bindings and fuzzy completion
-# source /usr/share/doc/fzf/examples/key-bindings.zsh
-# source /usr/share/doc/fzf/examples/completion.zsh
+# starship theme
+eval "$(starship init zsh)"

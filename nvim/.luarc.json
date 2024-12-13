@@ -1,8 +1,0 @@
-{
-    "diagnostics.globals": [
-        "get_element_id_at_cursor"
-    ],
-    "diagnostics.disable": [
-        "undefined-global"
-    ]
-}
